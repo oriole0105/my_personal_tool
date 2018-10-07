@@ -1,48 +1,70 @@
 #!/usr/local/bin/python3.4
 
-# 步驟一：匯入 tkinter 模組。
 import tkinter as tk
 from tkinter import Tk, Label, Entry, Radiobutton, IntVar, Button, scrolledtext
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
+from email.mime.multipart import MIMEMultipart
+from smtplib import SMTP
+import smtplib
+import sys
+import getopt
 
-# 步驟二：建立主視窗。
+
 mainWin = Tk()
-var = IntVar()
-operation = [ '+', '-', '*', '/']
 
-# 視窗標題
 mainWin.title("OmniFocus信件寄送")
-# 視窗大小
-mainWin.geometry("400x200")
+mainWin.geometry("500x200")
 
-# 步驟三：建立視窗控制項元件。
-# 建立標籤
-firstNumLabel = Label(mainWin, text="Subject")
-secondNumLabel = Label(mainWin, text="Note")
+Label_passwd  = Label(mainWin, text = "Password")
+Label_subject = Label(mainWin, text = "Subject")
+Label_note    = Label(mainWin, text = "Note")
 
-# 按鈕 Click 事件處理函式
 def cal():
-    exp = firstNum.get() +operation[var.get()] + secondNum.get()
+    sender = 'oriole0105work1@gmail.com'
+    passwd = Entry_passwd.get()
+    receivers = 'oriole0105.qfs6r@sync.omnigroup.com'
 
-# 建立文字方塊
-firstNum = Entry(mainWin, text="Num1")
-firstNum.focus()
-# secondNum = Entry(mainWin, text="Num2", width=100)
+    msg = MIMEMultipart()
+    # part = MIMEText( Entry_note.get() )
+    part = MIMEText(  "not ready" )
+    msg.attach(part)
 
-secondNum = scrolledtext.ScrolledText(mainWin, width=40, height=4, wrap=tk.WORD)
+    # me == the sender's email address
+    # you == the recipient's email address
+    msg['Subject'] =  Entry_subject.get()
+    msg['From'] = sender
+    msg['To'] = receivers
+
+    # Send the message via our own SMTP server.
+    s = smtplib.SMTP("smtp.gmail.com:587")
+    s.ehlo()
+    s.starttls()
+    s.login(sender, passwd)
+    s.sendmail(msg['From'], receivers , msg.as_string())
+
+    #s.send_message(msg)
+    s.quit()
+
+Entry_passwd  = Entry(mainWin, show="*", text = "", width = 40)
+Entry_subject = Entry(mainWin, text = "", width = 40)
+Entry_note = scrolledtext.ScrolledText(mainWin, width=50, height=4, wrap=tk.WORD)
+
+button = Button(mainWin, text="Send", command = cal )
 
 
 
-button = Button(mainWin, text="Send")
 
+Label_passwd.grid  ( row=0,column=0)
+Label_subject.grid ( row=1,column=0)
+Label_note.grid    ( row=2,column=0)
+button.grid        ( row=3, column=0)
 
-# 版面配置
-firstNumLabel.grid(row=0,column=0)
-secondNumLabel.grid(row=1,column=0)
+Entry_passwd.grid  ( row=0,column=1 )
+Entry_subject.grid ( row=1,column=1 )
+Entry_note.grid    ( row=2,column=1)
 
-firstNum.grid(row=0,column=1 )
-#secondNum.grid(row=1,column=1, columnspan=2, rowspan=2)
-secondNum.grid(row=1,column=1)
-button.grid(row=3, column=0)
-
-# 步驟四： 進入事件處理迴圈。
 mainWin.mainloop()
+
+
+
