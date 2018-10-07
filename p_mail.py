@@ -16,7 +16,7 @@ import getopt
 
 
 sender = 'oriole0105work1@gmail.com'
-passwd = 'Rluo0105LoveVenus'
+passwd = ''
 receivers = 'oriole0105.qfs6r@sync.omnigroup.com'
 
 msg = MIMEMultipart()
