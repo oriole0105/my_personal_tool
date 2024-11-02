@@ -14,7 +14,7 @@ class PDFToolGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("PDF工具")
-        self.root.geometry("600x750")
+        self.root.geometry("780x630")
         
         # 建立主捲動框架
         self.main_canvas = tk.Canvas(root)
