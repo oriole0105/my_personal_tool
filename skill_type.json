@@ -1,0 +1,5 @@
+{
+   "程式設計": ["Python", "Java", "C++"],
+   "資料庫": ["MySQL", "SQLite", "MongoDB"],
+   "網頁技術": ["HTML", "CSS", "JavaScript"]
+}
